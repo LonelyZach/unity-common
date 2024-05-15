@@ -1,0 +1,17 @@
+{
+    "name": "GameSystem",
+    "rootNamespace": "",
+    "references": [
+        "GUID:bf353e6e01411cc48972bf70251bd5f1",
+        "GUID:25ecea5cb2940524ebc609b43558fc1b"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
