@@ -1,0 +1,16 @@
+{
+    "name": "RpgSystemTests",
+    "rootNamespace": "",
+    "references": [
+        "GUID:11253ae4f973b9441814732d50f7d8f6"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
