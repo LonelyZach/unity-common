@@ -1,8 +1,8 @@
-using System.State;
+using com.lonely.common.System.State;
 
-namespace System.Simulation
+namespace com.lonely.common.System.Simulation
 {
-  public abstract record SimulationStep<TStateRoot>() where TStateRoot : RootStateEntity<TStateRoot>
+  public abstract record SimulationStep<TStateRoot>() where TStateRoot : RootStateEntity
   {
     public abstract void Run(TStateRoot state, int step);
   }

@@ -1,11 +1,12 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.State;
+using com.lonely.common.System.State;
 
-namespace System.Display
+namespace com.lonely.common.System.Display
 {
   public class DisplayEntityTracker<TState, TLocationFinder>
-    where TState : RootStateEntity<TState>
+    where TState : RootStateEntity
     where TLocationFinder : LocationFinderBehaviour
   {
     private IDictionary<Type, IList<DisplayEntityBase<TLocationFinder>>> _displayEntityPrefabsByStateEntityType;

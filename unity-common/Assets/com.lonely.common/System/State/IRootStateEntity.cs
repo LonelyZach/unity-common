@@ -1,4 +1,4 @@
-namespace System.State
+namespace com.lonely.common.System.State
 {
   public interface IRootStateEntity : IStateEntity
   {

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace System
+namespace com.lonely.common.System
 {
   public abstract class LocationFinderBehaviour : MonoBehaviour
   {

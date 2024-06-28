@@ -1,4 +1,6 @@
-namespace System.State
+using System;
+
+namespace com.lonely.common.System.State
 {
   public record Timer
   {

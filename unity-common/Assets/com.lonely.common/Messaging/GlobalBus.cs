@@ -1,6 +1,6 @@
 using System;
 
-namespace Messaging
+namespace com.lonely.common.Messaging
 {
   public static class GlobalBus
   {

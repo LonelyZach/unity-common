@@ -1,9 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace System.State
+namespace com.lonely.common.System.State
 {
-  public abstract class RootStateEntity<TStateEntity> : StateEntity<TStateEntity>, IRootStateEntity where TStateEntity : StateEntity<TStateEntity>
+  public abstract class RootStateEntity : StateEntity, IRootStateEntity
   {
     protected RootStateEntity(int step)
     {
@@ -43,13 +44,24 @@ namespace System.State
 
       return new Timer(this, startStep, endStep, description, key);
     }
-
+    
+    public void SimulateAt(int step, string description)
+    {
+      if (!SimulateAtSteps.ContainsKey(step))
+      {
+        SimulateAtSteps.Add(step, description);
+      }
+    }
+    
+    public void SimulateIn(int deltaSteps, string description)
+    {
+      var step = Step + deltaSteps;
+      SimulateAt(step, description);
+    }
+    
     public void SimulateNow(string description)
     {
-      if (!SimulateAtSteps.ContainsKey(Step))
-      {
-        SimulateAtSteps.Add(Step, description);
-      }
+      SimulateAt(Step, description);
     }
   }
 }

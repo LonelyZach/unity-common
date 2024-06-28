@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.State;
+using com.lonely.common.System.State;
 
-namespace System.Simulation
+namespace com.lonely.common.System.Simulation
 {
-  public class Simulation<TStateRoot> where TStateRoot : RootStateEntity<TStateRoot>
+  public class Simulation<TStateRoot> where TStateRoot : RootStateEntity
   {
     private IList<SimulationStep<TStateRoot>> _simulationSteps = new List<SimulationStep<TStateRoot>> { };
 
@@ -17,7 +17,11 @@ namespace System.Simulation
 
     public Simulation<TStateRoot> DeepCopy()
     {
-      var state = State.DeepCopy();
+      var state = State.DeepCopyAs<TStateRoot>();
+      foreach (var simulateAt in State.SimulateAtSteps) // TODO: copy this within the state root? Weird to manage here.
+      {
+        state.SimulateAt(simulateAt.Key, simulateAt.Value);
+      }
       var simulation = new Simulation<TStateRoot>(state);
       simulation._simulationSteps = _simulationSteps.Select(x => x).ToList();
       return simulation;

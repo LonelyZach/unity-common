@@ -1,14 +1,15 @@
+using System;
 using System.Collections.Generic;
-using System.Display;
-using System.Simulation;
-using System.State;
-using Messaging;
+using com.lonely.common.Messaging;
+using com.lonely.common.System.Display;
+using com.lonely.common.System.Simulation;
+using com.lonely.common.System.State;
 using UnityEngine;
 
-namespace System
+namespace com.lonely.common.System
 {
   public abstract class SystemBehaviour<TState, TLocationFinder> : MonoBehaviour, ISystemBehaviour
-    where TState : RootStateEntity<TState>
+    where TState : RootStateEntity
     where TLocationFinder : LocationFinderBehaviour
   {
     public DisplayEntityBase<TLocationFinder>[] DisplayEntityPrefabs;

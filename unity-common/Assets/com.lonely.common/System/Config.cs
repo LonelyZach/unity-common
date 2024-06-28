@@ -1,4 +1,4 @@
-namespace System
+namespace com.lonely.common.System
 {
   public static class Config
   {

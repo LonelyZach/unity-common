@@ -1,7 +1,8 @@
-using System.State;
+using System;
+using com.lonely.common.System.State;
 using UnityEngine;
 
-namespace System.Display
+namespace com.lonely.common.System.Display
 {
   public abstract class DisplayEntityBase<TLocationFinder> : MonoBehaviour, IDisplayEntity<TLocationFinder>
     where TLocationFinder : LocationFinderBehaviour

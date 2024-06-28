@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Messaging
+namespace com.lonely.common.Messaging
 {
   public class Bus
   {

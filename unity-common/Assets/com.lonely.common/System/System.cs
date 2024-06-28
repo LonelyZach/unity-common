@@ -1,11 +1,12 @@
-using System.Simulation;
-using System.State;
-using Messaging;
+using System;
+using com.lonely.common.Messaging;
+using com.lonely.common.System.Simulation;
+using com.lonely.common.System.State;
 
-namespace System
+namespace com.lonely.common.System
 {
   public class System<TState> : ISystem
-    where TState : RootStateEntity<TState>
+    where TState : RootStateEntity
   {
     public readonly Simulation<TState> Simulation;
     private readonly SystemBus _bus;

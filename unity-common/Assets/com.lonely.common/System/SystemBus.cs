@@ -1,6 +1,7 @@
-using Messaging;
+using System;
+using com.lonely.common.Messaging;
 
-namespace System
+namespace com.lonely.common.System
 {
   public class SystemBus
   {

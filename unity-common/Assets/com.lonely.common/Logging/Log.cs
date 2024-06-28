@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Logging
+namespace com.lonely.common.Logging
 {
   public static class Log
   {

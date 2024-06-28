@@ -1,6 +1,6 @@
-using System.State;
+using com.lonely.common.System.State;
 
-namespace System.Display
+namespace com.lonely.common.System.Display
 {
   public interface IDisplayEntity<TLocationFinder>
     where TLocationFinder : LocationFinderBehaviour

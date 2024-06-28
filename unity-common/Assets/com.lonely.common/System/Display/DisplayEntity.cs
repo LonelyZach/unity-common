@@ -1,11 +1,12 @@
+using System;
 using System.Collections.Generic;
-using System.State;
-using Logging;
+using com.lonely.common.Logging;
+using com.lonely.common.System.State;
 
-namespace System.Display
+namespace com.lonely.common.System.Display
 {
   public abstract class DisplayEntity<TState, TStateEntity, TLocationFinder> : DisplayEntityBase<TLocationFinder>
-    where TState : RootStateEntity<TState>
+    where TState : RootStateEntity
     where TLocationFinder : LocationFinderBehaviour
   {
     private readonly List<IDisplayEntityListener<TState, TStateEntity, TLocationFinder>> _listeners = new List<IDisplayEntityListener<TState, TStateEntity, TLocationFinder>>();

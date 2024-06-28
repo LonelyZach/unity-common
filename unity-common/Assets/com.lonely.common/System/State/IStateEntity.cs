@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace System.State
+namespace com.lonely.common.System.State
 {
   public interface IStateEntity
   {

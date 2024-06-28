@@ -2,9 +2,13 @@
     "name": "RpgSystemTests",
     "rootNamespace": "",
     "references": [
-        "GUID:11253ae4f973b9441814732d50f7d8f6"
+        "GUID:c8c649b69bc85cf4c99fe9acb7e655e3",
+        "GUID:a2c7134201cbad940b3191c17c0a8248",
+        "GUID:c74a68aec8e8acf4fb6e5a9604635cfe"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

@@ -1,14 +1,20 @@
+using System;
 using System.Collections.Generic;
-using System.Display;
 using System.Linq;
 
-namespace System.State
+namespace com.lonely.common.System.State
 {
-  public abstract class StateEntity<TStateEntity> : IStateEntity where TStateEntity : StateEntity<TStateEntity>
+  public abstract class StateEntity : IStateEntity
   {
     public abstract string Key { get; }
 
-    public abstract TStateEntity DeepCopy();
+    public abstract StateEntity DeepCopy();
+
+    public T DeepCopyAs<T>()
+      where T : StateEntity
+    {
+      return (T)DeepCopy();
+    }
 
     public abstract IEnumerable<IStateEntity> GetChildren();
 
@@ -20,48 +26,48 @@ namespace System.State
 
   public static class StateEntityExtensions
   {
-    public static IList<T> DeepCopy<T>(this IList<T> list) where T : StateEntity<T>
+    public static IList<T> DeepCopy<T>(this IList<T> list) where T : StateEntity
     {
-      return list.Select(x => x == null ? default : x.DeepCopy()).ToList();
+      return list.Select(x => x == null ? default : x.DeepCopyAs<T>()).ToList();
     }
 
-    public static T[] DeepCopy<T>(this T[] list) where T : StateEntity<T>
+    public static T[] DeepCopy<T>(this T[] list) where T : StateEntity
     {
-      return list.Select(x => x == null ? default : x.DeepCopy()).ToArray();
+      return list.Select(x => x == null ? default : x.DeepCopyAs<T>()).ToArray();
     }
 
     public static IDictionary<K,V> DeepCopy<K, V>(this IDictionary<K, V> dictionary)
       where K : struct
-      where V : StateEntity<V>
+      where V : StateEntity
     {
       var newDictionary = new Dictionary<K, V>();
       foreach (var pair in dictionary)
       {
-        newDictionary.Add(pair.Key, pair.Value.DeepCopy());
+        newDictionary.Add(pair.Key, pair.Value.DeepCopyAs<V>());
       }
 
       return newDictionary;
     }
     
     public static IDictionary<string, V> DeepCopy<V>(this IDictionary<string, V> dictionary)
-      where V : StateEntity<V>
+      where V : StateEntity
     {
       var newDictionary = new Dictionary<string, V>();
       foreach (var pair in dictionary)
       {
-        newDictionary.Add(pair.Key, pair.Value.DeepCopy());
+        newDictionary.Add(pair.Key, pair.Value.DeepCopyAs<V>());
       }
 
       return newDictionary;
     }
     
     public static IDictionary<Type, V> DeepCopy<V>(this IDictionary<Type, V> dictionary)
-      where V : StateEntity<V>
+      where V : StateEntity
     {
       var newDictionary = new Dictionary<Type, V>();
       foreach (var pair in dictionary)
       {
-        newDictionary.Add(pair.Key, pair.Value.DeepCopy());
+        newDictionary.Add(pair.Key, pair.Value.DeepCopyAs<V>());
       }
 
       return newDictionary;
