@@ -42,7 +42,7 @@ namespace com.lonely.common.System.State
         SimulateAtSteps.Add(endStep, description);
       }
 
-      return new Timer(this, startStep, endStep, description, key);
+      return new Timer(startStep, endStep, description, key);
     }
     
     public void SimulateAt(int step, string description)

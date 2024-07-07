@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using com.lonely.common.CommonUtil;
 
 namespace com.lonely.common.EcsSystem
 {
@@ -36,6 +37,11 @@ namespace com.lonely.common.EcsSystem
       return _inner.TryGetValue(type, out var list)
         ? list.Cast<T>()
         : Enumerable.Empty<T>();
+    }
+    
+    public IEnumerable<T> All()
+    {
+      return _inner.Values.SelectMany(x => x.ToArray().Select(i => (T)i));
     }
     
     public U GetSingle<U>()
@@ -74,6 +80,20 @@ namespace com.lonely.common.EcsSystem
       return Get<U>().FirstOrDefault(selector);
     }
     
+    public bool TryGetFirst<U>(out U item)
+      where U : T
+    {
+      item = Get<U>().FirstOrDefault();
+      return !Equals(item, default(U));
+    }
+    
+    public bool TryGetFirst<U>(Func<U, bool> selector, out U item)
+      where U : T
+    {
+      item = Get<U>().FirstOrDefault(selector);
+      return !Equals(item, default(U));
+    }
+    
     public U GetLastOrDefault<U>()
       where U : T
     {
@@ -84,6 +104,20 @@ namespace com.lonely.common.EcsSystem
       where U : T
     {
       return Get<U>().LastOrDefault(selector);
+    }
+    
+    public bool TryGetLast<U>(out U item)
+      where U : T
+    {
+      item = Get<U>().LastOrDefault();
+      return !Equals(item, default(U));
+    }
+    
+    public bool TryGetLast<U>(Func<U, bool> selector, out U item)
+      where U : T
+    {
+      item = Get<U>().LastOrDefault(selector);
+      return !Equals(item, default(U));
     }
 
     public void Add<U>(U item)
@@ -142,6 +176,12 @@ namespace com.lonely.common.EcsSystem
     public void Remove(Type type)
     {
       _inner[type] = new ArrayList();
+    }
+    
+    public bool  HasAny<U>()
+      where U : T
+    {
+      return Get<U>().FirstOrDefault() != null;
     }
 
     public TypedListDictionary<T> DeepCopy(Func<T, T> copier)
