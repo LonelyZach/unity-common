@@ -7,21 +7,22 @@ namespace com.lonely.common.EcsSystem
   public class ObserverRegistry<TState>
     where TState : EcsRoot<TState>
   {
-    public delegate void Handler<TObservable>(TState state, TObservable observable);
+    public delegate void Handler<TObservable>(TState state, TObservable observable) where TObservable : IEcsObservable;
     
-    private readonly TypedListDictionary<object> _handlers  = new TypedListDictionary<object>();
+    private readonly TypedListDictionary<object> _handlers  = new ();
 
-    public void Register<TObservable>(Handler<TObservable> handler)
+    public void Register<TObservable>(Handler<TObservable> handler) where TObservable : IEcsObservable
     {
-      _handlers.Add(handler);
+      _handlers.Add(typeof(TObservable), handler);
     }
 
-    public void Notify<TObservable>(TState state, TObservable observable)
+    public void Notify<TObservable>(TState state, TObservable observable) where TObservable : IEcsObservable
     {
-      var handlers = _handlers.Get<Handler<TObservable>>();
+      var observableType = typeof(TObservable);
+      var handlers = _handlers.Get(observableType);
       foreach (var handler in handlers)
       {
-        handler(state, observable);
+        ((Handler<TObservable>)handler)(state, observable);
       }
     }
   }

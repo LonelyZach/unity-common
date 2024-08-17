@@ -13,7 +13,7 @@ namespace Tests.RpgSystemTests
     private com.lonely.common.System.System<SampleState> SetupSystem()
     {
       var state = new SampleState(0);
-      var system = new com.lonely.common.System.System<SampleState>(state);
+      var system = new com.lonely.common.System.System<SampleState>(state, null);
       
       system.Simulation.Register(new TranslationModule.StartTranslationsStep());
       system.Simulation.Register(new TranslationModule.CancelTranslationsStep());
@@ -21,7 +21,7 @@ namespace Tests.RpgSystemTests
       
       return system;
     }
-    
+
     [Test]
     public void TestSimpleTranslation()
     {
@@ -72,7 +72,7 @@ namespace Tests.RpgSystemTests
     }
     
     [Test]
-    public void TestRootedStatus()
+    public void TestRootedStatusStopsWalk()
     {
       var system = SetupSystem();
       var state = system.GetState();
@@ -83,6 +83,46 @@ namespace Tests.RpgSystemTests
       state.Characters.First(x => x.Location.X == 1).Components.Add(new Stack(new Rooted()) { Magnitude = 1 });
       
       state.Cmds.Add(new TranslationModule.StartTranslation(state.Characters.First(x => x.Location.X == 1).Id.Value, 1, 2));
+      state.SimulateNow("Init");
+
+      system.Simulation.Step(0);
+      
+      Assert.IsNotNull(state.Characters.FirstOrDefault(x => x.Location.X == 1));
+      Assert.IsNull(state.Characters.FirstOrDefault(x => x.Location.X == 2));
+    }
+    
+    [Test]
+    public void TestLockedStatusAllowsWalk()
+    {
+      var system = SetupSystem();
+      var state = system.GetState();
+
+      Assert.IsNotNull(state.Characters.FirstOrDefault(x => x.Location.X == 1));
+      Assert.IsNotNull(state.Characters.FirstOrDefault(x => x.Location.X == 4));
+
+      state.Characters.First(x => x.Location.X == 1).Components.Add(new Stack(new Locked()) { Magnitude = 1 });
+      
+      state.Cmds.Add(new TranslationModule.StartTranslation(state.Characters.First(x => x.Location.X == 1).Id.Value, 1, 2, false));
+      state.SimulateNow("Init");
+
+      system.Simulation.Step(0);
+      
+      Assert.IsNotNull(state.Characters.FirstOrDefault(x => x.Location.X == 2));
+      Assert.IsNull(state.Characters.FirstOrDefault(x => x.Location.X == 1));
+    }
+    
+    [Test]
+    public void TestLockedStatusStopsTeleport()
+    {
+      var system = SetupSystem();
+      var state = system.GetState();
+
+      Assert.IsNotNull(state.Characters.FirstOrDefault(x => x.Location.X == 1));
+      Assert.IsNotNull(state.Characters.FirstOrDefault(x => x.Location.X == 4));
+
+      state.Characters.First(x => x.Location.X == 1).Components.Add(new Stack(new Locked()) { Magnitude = 1 });
+      
+      state.Cmds.Add(new TranslationModule.StartTranslation(state.Characters.First(x => x.Location.X == 1).Id.Value, 1, 2, true));
       state.SimulateNow("Init");
 
       system.Simulation.Step(0);

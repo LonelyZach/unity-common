@@ -15,5 +15,19 @@ namespace com.lonely.common.EcsSystem
     {
       return registry => registry.Register(handler);
     }
+    
+    public static Register On<TObservable>(Func<TObservable, bool> predicate, ObserverRegistry<TState>.Handler<TObservable> handler)
+      where TObservable : IEcsObservable
+    {
+      void WrappedHandler(TState state, TObservable observable)
+      {
+        if (predicate(observable))
+        {
+          handler(state, observable);
+        }
+      }
+      
+      return registry => registry.Register((ObserverRegistry<TState>.Handler<TObservable>)WrappedHandler);
+    }
   }
 }

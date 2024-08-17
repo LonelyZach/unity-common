@@ -8,13 +8,13 @@ namespace Tests.RpgSystemTests.Sample.Modules
 {
   public class TranslationModule
   {
-    internal record Translation(int FromX, int ToX) : Component();
+    internal record Translation(int FromX, int ToX, bool Teleport) : Component();
     
-    internal record StartTranslation(Guid Entity, int FromX, int ToX) : Cmd();
+    internal record StartTranslation(Guid Entity, int FromX, int ToX, bool Teleport = false) : Cmd();
     internal record CancelTranslations(Guid Entity) : Cmd();
     
-    internal record TranslationStarted(Guid Entity, int FromX, int ToX) : Evt(); 
-    internal record TranslationCompleted(Guid Entity, int FromX, int ToX) : Evt(); 
+    internal record TranslationStarted(Guid Entity, int FromX, int ToX, bool Teleport) : Evt(); 
+    internal record TranslationCompleted(Guid Entity, int FromX, int ToX, bool Teleport) : Evt(); 
     
     internal record StartTranslationsStep : SimulationStep<SampleState>
     {
@@ -29,8 +29,8 @@ namespace Tests.RpgSystemTests.Sample.Modules
 
         foreach (var (cmd, character) in operations)
         {
-          var translation = new Translation(cmd.FromX, cmd.ToX);
-          var evt = new TranslationStarted(character.Id.Value, cmd.FromX, cmd.ToX);
+          var translation = new Translation(cmd.FromX, cmd.ToX, cmd.Teleport);
+          var evt = new TranslationStarted(character.Id.Value, cmd.FromX, cmd.ToX, cmd.Teleport);
           
           character.Components.Add(translation);
           state.Observers.Notify(state, evt);
@@ -71,7 +71,7 @@ namespace Tests.RpgSystemTests.Sample.Modules
         
         foreach (var (character, activeTranslation) in operations)
         {
-          var evt = new TranslationCompleted(character.Id.Value, activeTranslation.FromX, activeTranslation.ToX);
+          var evt = new TranslationCompleted(character.Id.Value, activeTranslation.FromX, activeTranslation.ToX, activeTranslation.Teleport);
           character.Location.X = activeTranslation.ToX;
           state.Observers.Notify(state, evt);
         }

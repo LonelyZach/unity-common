@@ -136,18 +136,19 @@ namespace com.lonely.common.EcsSystem
       _inner[type].Add(item);
     }
 
-    public void Remove<U>(Func<U, bool> predicate)
+    public IEnumerable<U> Remove<U>(Func<U, bool> predicate)
       where U : T
     {
-      if (!_inner.ContainsKey(typeof(U)))
+      if (!_inner.ContainsKey(typeof(U))) yield break;
+      
+      var matches = _inner[typeof(U)].ToArray().Where(x => predicate((U)x));
+      foreach (var match in matches)
       {
-        return;
-      }
-
-      var match = _inner[typeof(U)].ToArray().FirstOrDefault(x => predicate((U)x));
-      if (match != null)
-      {
-        Remove((U)match);
+        if (match == null) continue;
+        
+        var typed = (U)match;
+        Remove(typed);
+        yield return typed;
       }
     }
 
@@ -167,15 +168,17 @@ namespace com.lonely.common.EcsSystem
       _inner[type].Remove(item);
     }
 
-    public void Remove<U>()
+    public IEnumerable<U> Remove<U>()
       where U : T
     {
-      Remove(typeof(U));
+      return Remove(typeof(U)).Select(x => (U)x);
     }
 
-    public void Remove(Type type)
+    public IEnumerable<T> Remove(Type type)
     {
+      var existing = Get<T>();
       _inner[type] = new ArrayList();
+      return existing;
     }
     
     public bool  HasAny<U>()
@@ -186,8 +189,8 @@ namespace com.lonely.common.EcsSystem
 
     public TypedListDictionary<T> DeepCopy(Func<T, T> copier)
     {
-      return new TypedListDictionary<T>(_inner.ToDictionary(x => x.Key,
-        x => new ArrayList(x.Value.ToArray().Select(y => copier((T)y)).ToArray())));
+      var copy = new TypedListDictionary<T>(_inner.ToDictionary(x => x.Key, x => new ArrayList(x.Value.ToArray().Select(y => copier((T)y)).ToArray())));
+      return copy;
     }
   }
 }

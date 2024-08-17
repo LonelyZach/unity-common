@@ -21,7 +21,7 @@ namespace com.lonely.common.EcsSystem
     
     public TypedListDictionary<Component> DeepCopyComponents()
     {
-      return Components.DeepCopy(x => x with { });
+      return Components.DeepCopy(x => x.DeepCopy());
     }
 
     protected void EnsureComponent<TComponent>(Func<TComponent> builder) where TComponent : Component

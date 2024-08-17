@@ -5,6 +5,5 @@ namespace Tests.RpgSystemTests.Sample.Components
 {
   internal record Resident : Component
   {
-    public Guid Id;
   }
 }

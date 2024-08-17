@@ -6,7 +6,7 @@ namespace com.lonely.common.RpgSystem
 {
   public class RpgSystemBehaviour : SystemBehaviour<RpgState, RpgSystemLocationFinderBehaviour>
   {
-    public override RpgState InitState()
+    public override RpgState InitState(SystemBus systemBus)
     {
       return new RpgState(0);
     }

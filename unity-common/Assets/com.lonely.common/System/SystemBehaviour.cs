@@ -31,10 +31,11 @@ namespace com.lonely.common.System
       {
         return;
       }
-      
-      var state = InitState();
+
+      var systemBus = new SystemBus(this);
+      var state = InitState(systemBus);
       state.SimulateNow("Init");
-      System = new System<TState>(state);
+      System = new System<TState>(state, systemBus);
       foreach (var step in InitSimulation())
       {
         System.Simulation.Register(step);
@@ -52,7 +53,7 @@ namespace com.lonely.common.System
 
     public void OnDestroy()
     {
-      System.Destroy();
+      System?.Destroy();
     }
 
     public void Update()
@@ -95,7 +96,7 @@ namespace com.lonely.common.System
       System.Dispatch(message);
     }
 
-    public abstract TState InitState();
+    public abstract TState InitState(SystemBus systemBus);
 
     public virtual IList<SimulationStep<TState>> InitSimulation()
     {

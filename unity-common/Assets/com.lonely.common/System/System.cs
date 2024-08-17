@@ -11,21 +11,21 @@ namespace com.lonely.common.System
     public readonly Simulation<TState> Simulation;
     private readonly SystemBus _bus;
     
-    public System(TState state)
+    public System(TState state, SystemBus systemBus)
     {
       Simulation = new Simulation<TState>(state);
-      _bus = new SystemBus(this);
+      _bus = systemBus;
     }
 
-    public System(Simulation<TState> simulation)
+    public System(Simulation<TState> simulation, SystemBus systemBus)
     {
       Simulation = simulation;
-      _bus = new SystemBus(this);
+      _bus = systemBus;
     }
 
     public System<TState> DeepCopy()
     {
-      return new System<TState>(Simulation.DeepCopy());
+      return new System<TState>(Simulation.DeepCopy(), _bus);
     }
 
     public void Destroy()

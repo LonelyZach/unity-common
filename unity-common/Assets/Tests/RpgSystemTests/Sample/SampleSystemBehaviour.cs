@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using com.lonely.common.EcsSystem;
+using com.lonely.common.System;
 using com.lonely.common.System.Simulation;
 using com.lonely.common.System.State;
 using Tests.RpgSystemTests.Sample.Components;
@@ -13,7 +14,7 @@ namespace Tests.RpgSystemTests.Sample
 {
   internal class SampleSystemBehaviour : EcsSystemBehaviour<SampleState, SampleLocationFinderBehaviour>
   {
-    public override SampleState InitState()
+    public override SampleState InitState(SystemBus systemBus)
     {
       return new SampleState(0);
     }

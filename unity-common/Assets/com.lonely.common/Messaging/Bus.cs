@@ -5,7 +5,7 @@ namespace com.lonely.common.Messaging
 {
   public class Bus
   {
-    private static IDictionary<object, MessageHandlers> _systems = new Dictionary<object, MessageHandlers>();
+    private IDictionary<object, MessageHandlers> _systems = new Dictionary<object, MessageHandlers>();
 
     public void RegisterHandler<TMessage>(object system, Action<TMessage> handler)
     {
